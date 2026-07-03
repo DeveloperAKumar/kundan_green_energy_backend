@@ -12,6 +12,9 @@ class Banner extends Model
         "url",
         "image",
         "sort_order",
+        "type",
+        "video",
+        "sub_heading",
         "status",
     ];
 }

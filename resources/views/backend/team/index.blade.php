@@ -1,0 +1,341 @@
+@extends('layouts.backend.main')
+@section('main-section')
+
+<div class="page-wrapper">
+    <div class="page-content">
+
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+
+            <div class="breadcrumb-title pe-3">
+                Team
+            </div>
+
+            <div class="ps-3">
+
+                <nav>
+
+                    <ol class="breadcrumb mb-0 p-0">
+
+                        <li class="breadcrumb-item">
+
+                            <a href="{{ route('backend.dashboard') }}">
+                                <i class="bx bx-home-alt"></i>
+                            </a>
+
+                        </li>
+
+                        <li class="breadcrumb-item active">
+
+                            Team Members
+
+                        </li>
+
+                    </ol>
+
+                </nav>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <div class="d-lg-flex align-items-center mb-4 gap-3">
+
+                    <div class="ms-auto">
+
+                        <a href="{{ route('backend.team.create') }}"
+                            class="btn btn-primary radius-30">
+
+                            <i class="bx bxs-plus-square"></i>
+
+                            Add Member
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table mb-0" id="example">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>Photo</th>
+
+                                <th>Member Type</th>
+
+                                <th>Name</th>
+
+                                <th>Designation</th>
+
+                                <th>Status</th>
+
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @forelse($teams as $index=>$team)
+
+                            <tr>
+
+                                <td>{{ $index+1 }}</td>
+
+                                <td>
+
+                                    <img
+                                        src="{{ asset($team->photo) }}"
+                                        width="70"
+                                        height="70"
+                                        style="object-fit:cover;border-radius:50%;">
+
+                                </td>
+
+                                <td>
+
+                                    @if($team->member_type=='team_member')
+
+                                    <span class="badge bg-primary">
+
+                                        Team Member
+
+                                    </span>
+
+                                    @else
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Board Member
+
+                                    </span>
+
+                                    @endif
+
+                                </td>
+
+                                <td>
+
+                                    {{ $team->name }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $team->designation }}
+
+                                </td>
+
+                                <td>
+
+                                    @if($team->status)
+
+                                    <span class="badge rounded-pill bg-success">
+
+                                        Active
+
+                                    </span>
+
+                                    @else
+
+                                    <span class="badge rounded-pill bg-danger">
+
+                                        Inactive
+
+                                    </span>
+
+                                    @endif
+
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex order-actions">
+
+                                        <a href="{{ route('backend.team.edit', Crypt::encrypt($team->id)) }}">
+
+                                            <i class="bx bxs-edit"></i>
+
+                                        </a>
+
+                                        <a href="javascript:;"
+                                            class="ms-3 delete_btn"
+                                            data-id="{{ $team->id }}">
+
+                                            <i class="bx bxs-trash"></i>
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            @empty
+
+                            <tr>
+
+                                <td colspan="7" class="text-center">
+
+                                    No Team Members Found.
+
+                                </td>
+
+                            </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
+
+@section('javascript-section')
+
+@if(Session::has('success'))
+
+<script>
+
+Swal.fire({
+
+    title:"Success!",
+
+    text:"{{ Session::get('success') }}",
+
+    icon:"success"
+
+});
+
+</script>
+
+@endif
+
+<script>
+
+$(document).on("click",".delete_btn",function(){
+
+    let id=$(this).data("id");
+
+    Swal.fire({
+
+        title:"Are you sure?",
+
+        text:"You want to delete this member?",
+
+        icon:"warning",
+
+        showCancelButton:true,
+
+        confirmButtonColor:"#3085d6",
+
+        cancelButtonColor:"#d33",
+
+        confirmButtonText:"Yes, Delete"
+
+    }).then(async(result)=>{
+
+        if(result.isConfirmed){
+
+            try{
+
+                const response=await fetch(
+                    "{{ route('backend.team.destroy') }}",
+                {
+
+                    method:"DELETE",
+
+                    headers:{
+
+                        "Content-Type":"application/json",
+
+                        "X-CSRF-TOKEN":"{{ csrf_token() }}"
+
+                    },
+
+                    body:JSON.stringify({
+
+                        id:id
+
+                    })
+
+                });
+
+                const data=await response.json();
+
+                if(data.status){
+
+                    Swal.fire(
+
+                        "Deleted!",
+
+                        "Member deleted successfully.",
+
+                        "success"
+
+                    ).then(()=>{
+
+                        location.reload();
+
+                    });
+
+                }else{
+
+                    Swal.fire(
+
+                        "Error",
+
+                        data.message,
+
+                        "error"
+
+                    );
+
+                }
+
+            }catch(error){
+
+                Swal.fire(
+
+                    "Error",
+
+                    "Request failed.",
+
+                    "error"
+
+                );
+
+            }
+
+        }
+
+    });
+
+});
+
+</script>
+
+@endsection

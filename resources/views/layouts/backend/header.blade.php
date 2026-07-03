@@ -75,6 +75,21 @@
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-category-alt'></i>
 						</div>
+						<div class="menu-title">Home Page</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('backend.valued_partnership')}}"><i class="bx bx-right-arrow-alt"></i>Valued Partnership</a>
+						</li>
+						<li> <a href="{{route('backend.projects_across_india')}}"><i class="bx bx-right-arrow-alt"></i>Project Across India</a>
+						<li> <a href="{{route('backend.home_video.edit')}}"><i class="bx bx-right-arrow-alt"></i>Home Video</a>
+						<li> <a href="{{route('backend.content_gallery')}}"><i class="bx bx-right-arrow-alt"></i>Content Galery</a>
+					</ul>
+				</li>
+
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-category-alt'></i>
+						</div>
 						<div class="menu-title">Categories</div>
 					</a>
 					<ul>
@@ -84,10 +99,72 @@
 					</ul>
 				</li>
 				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-category-alt'></i>
+						</div>
+						<div class="menu-title">About Pages</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('backend.about_page.edit')}}"><i class="bx bx-right-arrow-alt"></i>About Us</a>
+						</li>
+						<li> <a href="{{route('backend.chairman_message.edit')}}"><i class="bx bx-right-arrow-alt"></i>About MD & Cahirman</a>
+						<li> <a href="{{route('backend.team')}}"><i class="bx bx-right-arrow-alt"></i>Team</a>
+					</ul>
+				</li>
+				<li>
 					<a href="{{route('backend.testimonial')}}">
 						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
 						</div>
 						<div class="menu-title">Testimonials</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.news')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">News</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.event')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Events</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.main_gallery')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Main Gallery</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.project')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Project</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.vertical')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Vertical</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.vertical_section')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Vertical Section</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.vertical_advantage')}}">
+						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						</div>
+						<div class="menu-title">Vertical Advantage</div>
 					</a>
 				</li>
 

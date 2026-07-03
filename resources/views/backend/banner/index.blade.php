@@ -40,45 +40,73 @@
 						<div class="table-responsive">
 							<table class="table mb-0" id="example">
 								<thead class="table-light">
-									<tr>
-										<th>#</th>
-										<th>Name</th>
-										<th>Banner</th>
-										<th>Sort Order</th>
-										<th>Status</th> 
-										<th>Actions</th>
-									</tr>
-								</thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Heading</th>
+                                            <th>Banner Type</th>
+                                            <th>Banner</th> 
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
 								<tbody>
-                                     @forelse($banners as $index => $banner)
-									<tr>
-										<td>{{ $index + 1 }}</td>
-                                        <td>{{$banner->name ?? ""}}</td>
-                                        <td><img src="{{asset($banner->image)}}" width="100px"></td> 
-                                        <td>{{$banner->sort_order}}</td>
-										<td>
-                                            @if($banner->status)
-                                                <span class="badge rounded-pill bg-success" data-field="status">
-                                                    Active
-                                                </span>
+                                    @forelse($banners as $index => $banner)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+
+                                            <td>{{ $banner->heading }}</td>
+
+                                            <td>
+                                                @if($banner->type == 'image')
+                                                    <span class="badge bg-primary">Image</span>
                                                 @else
-                                                <span class="badge rounded-pill bg-danger" data-field="status">
-                                                    Inactive
-                                                </span>
-                                            @endif
-                                        </td>
-										<td>
-											<div class="d-flex order-actions">
-												<a href="{{route('backend.banner.edit', [Crypt::encrypt($banner->id)])}}" class=""><i class='bx bxs-edit'></i></a>
-												<a href="javascript:;" class="ms-3 delete_btn" data-id="{{$banner->id}}"><i class='bx bxs-trash'></i></a>
-											</div>
-										</td>
-									</tr>
-									@empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">No banner found.</td>
-                                    </tr>
-                                    @endforelse
+                                                    <span class="badge bg-info">Video</span>
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if($banner->type == 'image')
+                                                    <img src="{{ asset($banner->file) }}"
+                                                        width="120"
+                                                        height="70"
+                                                        style="object-fit:cover;border-radius:6px;">
+                                                @else
+                                                    <video width="120" height="70" controls>
+                                                        <source src="{{ asset($banner->file) }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                @endif
+                                            </td> 
+
+                                            <td>
+                                                @if($banner->status)
+                                                    <span class="badge rounded-pill bg-success">
+                                                        Active
+                                                    </span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-danger">
+                                                        Inactive
+                                                    </span>
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex order-actions">
+                                                    <a href="{{ route('backend.banner.edit', Crypt::encrypt($banner->id)) }}">
+                                                        <i class='bx bxs-edit'></i>
+                                                    </a>
+
+                                                    <a href="javascript:;" class="ms-3 delete_btn" data-id="{{ $banner->id }}">
+                                                        <i class='bx bxs-trash'></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center">No banner found.</td>
+                                        </tr>
+                                        @endforelse
 								</tbody>
 							</table>
 						</div>
@@ -92,7 +120,7 @@
 <script>
     Swal.fire({
         title: "Success!",
-        text: "Blog has been created!",
+        text: "{{ Session::get('success') }}",
         icon: "success"
     });
 </script> 
