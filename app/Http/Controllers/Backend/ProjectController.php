@@ -9,9 +9,33 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\Project;
 use App\Models\ProjectImage;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
+
+private function generateUniqueSlug($title, $id = null)
+{
+    $slug = \Illuminate\Support\Str::slug($title);
+
+    $originalSlug = $slug;
+
+    $count = 1;
+
+    while (
+        Project::where('slug', $slug)
+            ->when($id, function ($query) use ($id) {
+                $query->where('id', '!=', $id);
+            })
+            ->exists()
+    ) {
+        $slug = $originalSlug . '-' . $count;
+        $count++;
+    }
+
+    return $slug;
+}
+
       public function index()
     {
         $projects = Project::with('images')
@@ -30,67 +54,94 @@ class ProjectController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'capacity' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'established' => 'required|string|max:255',
-            'description' => 'required',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+        'capacity' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'established' => 'required|string|max:255',
+        'description' => 'required',
+
+        'meta_title' => 'nullable|string|max:255',
+        'meta_keyword' => 'nullable',
+        'meta_description' => 'nullable',
+
+        'images' => 'required|array|min:1',
+        'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        $project = Project::create([
+
+            'title' => $request->title,
+
+            'slug' => $this->generateUniqueSlug($request->title),
+
+            'category' => $request->category,
+
+            'capacity' => $request->capacity,
+
+            'location' => $request->location,
+
+            'established' => $request->established,
+
+            'description' => $request->description,
+
+            'meta_title' => $request->meta_title,
+
+            'meta_keyword' => $request->meta_keyword,
+
+            'meta_description' => $request->meta_description,
+
+            'status' => true,
+
         ]);
 
-        DB::beginTransaction();
+        $destination = public_path('uploads/project');
 
-        try {
+        if (!File::exists($destination)) {
 
-            $project = Project::create([
-                'title' => $request->title,
-                'category' => $request->category,
-                'capacity' => $request->capacity,
-                'location' => $request->location,
-                'established' => $request->established,
-                'description' => $request->description,
-                'status' => true,
+            File::makeDirectory($destination, 0755, true);
+
+        }
+
+        foreach ($request->file('images') as $image) {
+
+            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->move($destination, $filename);
+
+            ProjectImage::create([
+
+                'project_id' => $project->id,
+
+                'image' => 'uploads/project/' . $filename,
+
             ]);
 
-            $destination = public_path('uploads/project');
-
-            if (!File::exists($destination)) {
-                File::makeDirectory($destination, 0755, true);
-            }
-
-            foreach ($request->file('images') as $image) {
-
-                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-
-                $image->move($destination, $filename);
-
-                ProjectImage::create([
-                    'project_id' => $project->id,
-                    'image' => 'uploads/project/' . $filename,
-                ]);
-            }
-
-            DB::commit();
-
-            return redirect()
-                ->route('backend.project')
-                ->with('success', 'Project created successfully.');
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => $e->getMessage()
-                ]);
         }
+
+        DB::commit();
+
+        return redirect()
+            ->route('backend.project')
+            ->with('success', 'Project created successfully.');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()
+            ->withInput()
+            ->withErrors([
+                'error' => $e->getMessage()
+            ]);
     }
+}
 
 
     public function edit($id)
@@ -112,29 +163,62 @@ public function update(Request $request, $id)
     $project = Project::with('images')->findOrFail($id);
 
     $request->validate([
-        'title' => 'required|string|max:255',
-        'category' => 'required|string|max:255',
-        'capacity' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'established' => 'required|string|max:255',
-        'description' => 'required',
-        'status' => 'required|boolean',
-        'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-    ]);
+
+    'title' => 'required|string|max:255',
+
+    'category' => 'required|string|max:255',
+
+    'capacity' => 'required|string|max:255',
+
+    'location' => 'required|string|max:255',
+
+    'established' => 'required|string|max:255',
+
+    'description' => 'required',
+
+    'meta_title' => 'nullable|string|max:255',
+
+    'meta_keyword' => 'nullable',
+
+    'meta_description' => 'nullable',
+
+    'status' => 'required|boolean',
+
+    'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+
+]);
 
     DB::beginTransaction();
 
     try {
 
         $project->update([
-            'title' => $request->title,
-            'category' => $request->category,
-            'capacity' => $request->capacity,
-            'location' => $request->location,
-            'established' => $request->established,
-            'description' => $request->description,
-            'status' => $request->status,
-        ]);
+
+    'title' => $request->title,
+
+    'slug' => $project->title != $request->title
+        ? $this->generateUniqueSlug($request->title)
+        : $project->slug,
+
+    'category' => $request->category,
+
+    'capacity' => $request->capacity,
+
+    'location' => $request->location,
+
+    'established' => $request->established,
+
+    'description' => $request->description,
+
+    'meta_title' => $request->meta_title,
+
+    'meta_keyword' => $request->meta_keyword,
+
+    'meta_description' => $request->meta_description,
+
+    'status' => $request->status,
+
+]);
 
         if ($request->hasFile('images')) {
 

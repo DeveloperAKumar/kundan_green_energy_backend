@@ -11,10 +11,10 @@
 							<div class="card-body">
 								<div class="d-flex align-items-center">
 									<div>
-										<p class="mb-0">Total Orders</p>
-										<h5 class="mb-0">867</h5>
-									</div>
-									<div class="ms-auto">	<i class='bx bx-cart font-30'></i>
+									<p class="mb-0">Total Banners</p>
+									<h5 class="mb-0">{{ $total_banners ?? 0 }}</h5>
+								</div>
+								<div class="ms-auto"> 	<i class='bx bx-image font-30'></i>
 									</div>
 								</div>
 							</div>
@@ -26,10 +26,10 @@
 							<div class="card-body">
 								<div class="d-flex align-items-center">
 									<div>
-										<p class="mb-0">Total Income</p>
-										<h5 class="mb-0">$52,945</h5>
-									</div>
-									<div class="ms-auto">	<i class='bx bx-wallet font-30'></i>
+									<p class="mb-0">Total Projects</p>
+									<h5 class="mb-0">{{ $total_projects ?? 0 }}</h5>
+								</div>
+								<div class="ms-auto"> 	<i class='bx bx-briefcase font-30'></i>
 									</div>
 								</div>
 							</div>
@@ -41,8 +41,8 @@
 							<div class="card-body">
 								<div class="d-flex align-items-center">
 									<div>
-										<p class="mb-0">Total Users</p>
-										<h5 class="mb-0">24.5K</h5>
+									<p class="mb-0">Team Members</p>
+									<h5 class="mb-0">{{ $total_team ?? 0 }}</h5>
 									</div>
 									<div class="ms-auto">	<i class='bx bx-group font-30'></i>
 									</div>
@@ -56,10 +56,10 @@
 							<div class="card-body">
 								<div class="d-flex align-items-center">
 									<div>
-										<p class="mb-0">Comments</p>
-										<h5 class="mb-0">869</h5>
-									</div>
-									<div class="ms-auto">	<i class='bx bx-chat font-30'></i>
+									<p class="mb-0">Contact Enquiries</p>
+									<h5 class="mb-0">{{ $total_contacts ?? 0 }}</h5>
+								</div>
+								<div class="ms-auto"> 	<i class='bx bx-envelope-open font-30'></i>
 									</div>
 								</div>
 							</div>

@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\ValuedPartnershipController;
 use App\Http\Controllers\Backend\VerticalAdvantageController;
 use App\Http\Controllers\Backend\VerticalController;
 use App\Http\Controllers\Backend\VerticalSectionController;
+use App\Http\Controllers\Backend\CareerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Artisan;
  
@@ -222,6 +223,10 @@ use Illuminate\Support\Facades\Route;
                 Route::post('/event-gallery/update/{id}', 'update')->name('backend.event_image.update');
                 Route::delete('/event-gallery/destroy', 'destroy')->name('backend.event_image.destroy');
             });
+
+            Route::get('/career', [CareerController::class,'index'])->name('backend.career');
+            Route::get('/career/view/{id}', [CareerController::class,'show'])->name('backend.career.view');
+            Route::delete('/career/delete', [CareerController::class,'destroy'])->name('backend.career.destroy');
 
         });
     });

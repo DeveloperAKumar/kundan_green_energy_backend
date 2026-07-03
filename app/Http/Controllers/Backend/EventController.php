@@ -10,9 +10,32 @@ use App\Models\Event;
 use App\Models\EventImage;
 use App\Models\EventSession; 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EventController extends Controller{
+private function generateUniqueSlug($title, $id = null)
+{
+    $slug = Str::slug($title);
 
+    $originalSlug = $slug;
+
+    $count = 1;
+
+    while (
+        Event::where('slug', $slug)
+            ->when($id, function ($query) use ($id) {
+                $query->where('id', '!=', $id);
+            })
+            ->exists()
+    ) {
+
+        $slug = $originalSlug . '-' . $count;
+
+        $count++;
+    }
+
+    return $slug;
+}
  public function index()
     {
         $events = Event::latest()->get();
@@ -28,57 +51,69 @@ class EventController extends Controller{
         return view('backend.event.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
+   public function store(Request $request)
+{
+    $request->validate([
 
-            'title' => 'required|max:255',
+        'title' => 'required|max:255',
 
-            'date' => 'required|date',
+        'date' => 'required|date',
 
-            'description' => 'required',
+        'description' => 'required',
 
-            'thumbnail' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+        'meta_title' => 'nullable|max:255',
 
-        ]);
+        'meta_keyword' => 'nullable',
 
-        $event = new Event();
+        'meta_description' => 'nullable',
 
-        $event->title = $request->title;
+        'thumbnail' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
 
-        $event->date = $request->date;
+    ]);
 
-        $event->description = $request->description;
+    $event = new Event();
 
-        if($request->hasFile('thumbnail')){
+    $event->title = $request->title;
 
-            $destination = public_path('uploads/events');
+    $event->slug = $this->generateUniqueSlug($request->title);
 
-            if(!File::exists($destination)){
+    $event->date = $request->date;
 
-                File::makeDirectory($destination,0755,true);
+    $event->description = $request->description;
 
-            }
+    $event->meta_title = $request->meta_title;
 
-            $file = $request->file('thumbnail');
+    $event->meta_keyword = $request->meta_keyword;
 
-            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+    $event->meta_description = $request->meta_description;
 
-            $file->move($destination,$filename);
+    if ($request->hasFile('thumbnail')) {
 
-            $event->thumbnail = 'uploads/events/'.$filename;
+        $destination = public_path('uploads/events');
+
+        if (!File::exists($destination)) {
+
+            File::makeDirectory($destination, 0755, true);
 
         }
 
-        $event->status = true;
+        $file = $request->file('thumbnail');
 
-        $event->save();
+        $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
 
-        return redirect()
-            ->route('backend.event')
-            ->with('success','Event created successfully.');
+        $file->move($destination, $filename);
 
+        $event->thumbnail = 'uploads/events/'.$filename;
     }
+
+    $event->status = true;
+
+    $event->save();
+
+    return redirect()
+        ->route('backend.event')
+        ->with('success', 'Event created successfully.');
+}
 
     public function edit($id)
     {
@@ -98,27 +133,41 @@ class EventController extends Controller{
 
         $event = Event::findOrFail($id);
 
-        $request->validate([
+       $request->validate([
 
-            'title' => 'required|max:255',
+    'title' => 'required|max:255',
 
-            'date' => 'required|date',
+    'date' => 'required|date',
 
-            'description' => 'required',
+    'description' => 'required',
 
-            'status' => 'required|boolean',
+    'meta_title' => 'nullable|max:255',
 
-            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+    'meta_keyword' => 'nullable',
 
-        ]);
+    'meta_description' => 'nullable',
+
+    'status' => 'required|boolean',
+
+    'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+
+]);
 
         $event->title = $request->title;
 
-        $event->date = $request->date;
+$event->slug = $this->generateUniqueSlug($request->title, $event->id);
 
-        $event->description = $request->description;
+$event->date = $request->date;
 
-        $event->status = $request->status;
+$event->description = $request->description;
+
+$event->meta_title = $request->meta_title;
+
+$event->meta_keyword = $request->meta_keyword;
+
+$event->meta_description = $request->meta_description;
+
+$event->status = $request->status;
 
         if($request->hasFile('thumbnail')){
 

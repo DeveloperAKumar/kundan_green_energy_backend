@@ -8,7 +8,7 @@ class SiteSetting extends Model
 {
     protected $fillable = [
         "company_name",
-        "webiste",
+        "website",
         "logo_image",
         "favicon",
         "primary_phone",

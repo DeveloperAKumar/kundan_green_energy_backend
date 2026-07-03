@@ -37,10 +37,7 @@ class Vertical extends Model
         return $this->hasMany(VerticalAdvantage::class);
     }
 
-    public function projects()
-    {
-        return $this->hasMany(Project::class);
-    }
+  
 
     
 }

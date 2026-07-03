@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('site_settings', function (Blueprint $table){
             $table->id();
             $table->text('company_name')->nullable();
-            $table->text('webiste')->nullable();
+            $table->text('website')->nullable();
             $table->text('logo_image')->nullable();
             $table->text('favicon')->nullable();
             $table->text('primary_phone')->nullable();

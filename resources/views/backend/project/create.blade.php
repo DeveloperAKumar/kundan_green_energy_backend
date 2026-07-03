@@ -204,6 +204,74 @@
 
                     </div>
 
+
+                    <div class="card-header px-4 py-3 mt-4">
+    <h5 class="mb-0">
+        SEO Details
+    </h5>
+</div>
+
+<div class="col-md-12">
+
+    <label class="form-label">
+
+        Meta Title
+
+    </label>
+
+    <input
+        type="text"
+        class="form-control"
+        name="meta_title"
+        value="{{ old('meta_title') }}"
+        placeholder="Enter Meta Title">
+
+    @error('meta_title')
+        <p class="text-danger">{{ $message }}</p>
+    @enderror
+
+</div>
+
+<div class="col-md-6">
+
+    <label class="form-label">
+
+        Meta Keyword
+
+    </label>
+
+    <textarea
+        class="form-control"
+        rows="4"
+        name="meta_keyword"
+        placeholder="Enter Meta Keyword">{{ old('meta_keyword') }}</textarea>
+
+    @error('meta_keyword')
+        <p class="text-danger">{{ $message }}</p>
+    @enderror
+
+</div>
+
+<div class="col-md-6">
+
+    <label class="form-label">
+
+        Meta Description
+
+    </label>
+
+    <textarea
+        class="form-control"
+        rows="4"
+        name="meta_description"
+        placeholder="Enter Meta Description">{{ old('meta_description') }}</textarea>
+
+    @error('meta_description')
+        <p class="text-danger">{{ $message }}</p>
+    @enderror
+
+</div>
+
                     <div class="col-md-12">
 
                         <button

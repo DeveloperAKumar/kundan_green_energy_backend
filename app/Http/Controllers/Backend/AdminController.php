@@ -5,6 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Banner;
+use App\Models\Blog;
+use App\Models\ContactEnquiry;
+use App\Models\Event;
+use App\Models\Project;
+use App\Models\Team;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -26,7 +33,15 @@ class AdminController extends Controller{
     }
 
     public function dashboard(){
-        return view("backend.dashboard.admin_dashboard");
+        return view("backend.dashboard.admin_dashboard", [
+            'total_banners' => Banner::count(),
+            'total_projects' => Project::count(),
+            'total_team' => Team::count(),
+            'total_contacts' => ContactEnquiry::count(),
+            'total_testimonials' => Testimonial::count(),
+            'total_events' => Event::count(),
+            'total_news' => Blog::count(),
+        ]);
     }
 
     

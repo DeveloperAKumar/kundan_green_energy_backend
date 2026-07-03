@@ -53,7 +53,7 @@
 									<tr>
 										<td>{{ $index + 1 }}</td>
 										<td><img src="{{asset($blog->thumbnail)}}" width="100px"></td> 
-                                        <td>{{$blog->title ?? ""}}<td>
+                                        <td>{{$blog->title ?? ""}}</td>
 										<td>
                                             @if($blog->status)
                                                 <span class="badge rounded-pill bg-success" data-field="status">

@@ -59,48 +59,29 @@
 			<ul class="metismenu" id="menu">
 				<li>
 					<a href="{{route('backend.dashboard')}}">
-						<div class="parent-icon"><i class='bx bx-grid-alt'></i>
+						<div class="parent-icon"><i class='bx bx-home-alt'></i>
 						</div>
 						<div class="menu-title">Dashboard</div>
 					</a>
 				</li>
-				<li>
-					<a href="{{route('backend.banner')}}">
-						<div class="parent-icon"><i class='bx bx-image'></i>
-						</div>
-						<div class="menu-title">Banners</div>
-					</a>
-				</li>
+				 
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-category-alt'></i>
+						<div class="parent-icon"><i class='bx bx-home'></i>
 						</div>
 						<div class="menu-title">Home Page</div>
 					</a>
 					<ul>
-						<li> <a href="{{route('backend.valued_partnership')}}"><i class="bx bx-right-arrow-alt"></i>Valued Partnership</a>
-						</li>
+						<li> <a href="{{route('backend.banner')}}"><i class="bx bx-right-arrow-alt"></i>Banner</a></li>
+						<li> <a href="{{route('backend.valued_partnership')}}"><i class="bx bx-right-arrow-alt"></i>Valued Partnership</a></li>
 						<li> <a href="{{route('backend.projects_across_india')}}"><i class="bx bx-right-arrow-alt"></i>Project Across India</a>
 						<li> <a href="{{route('backend.home_video.edit')}}"><i class="bx bx-right-arrow-alt"></i>Home Video</a>
 						<li> <a href="{{route('backend.content_gallery')}}"><i class="bx bx-right-arrow-alt"></i>Content Galery</a>
 					</ul>
-				</li>
-
+				</li> 
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-category-alt'></i>
-						</div>
-						<div class="menu-title">Categories</div>
-					</a>
-					<ul>
-						<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Main Category</a>
-						</li>
-						<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Sub Category</a>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-category-alt'></i>
+						<div class="parent-icon"><i class='bx bx-book-open'></i>
 						</div>
 						<div class="menu-title">About Pages</div>
 					</a>
@@ -113,58 +94,65 @@
 				</li>
 				<li>
 					<a href="{{route('backend.testimonial')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-star'></i>
 						</div>
 						<div class="menu-title">Testimonials</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.news')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-news'></i>
 						</div>
 						<div class="menu-title">News</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.event')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-calendar-event'></i>
 						</div>
 						<div class="menu-title">Events</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.main_gallery')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-image'></i>
 						</div>
 						<div class="menu-title">Main Gallery</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.project')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-briefcase'></i>
 						</div>
 						<div class="menu-title">Project</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.vertical')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-layer'></i>
 						</div>
 						<div class="menu-title">Vertical</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.vertical_section')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-layout'></i>
 						</div>
 						<div class="menu-title">Vertical Section</div>
 					</a>
 				</li>
 				<li>
 					<a href="{{route('backend.vertical_advantage')}}">
-						<div class="parent-icon"><i class='bx bx-message-square-dots'></i>
+						<div class="parent-icon"><i class='bx bx-trending-up'></i>
 						</div>
 						<div class="menu-title">Vertical Advantage</div>
+					</a>
+				</li>
+				<li>
+					<a href="{{route('backend.career')}}">
+						<div class="parent-icon"><i class='bx bx-share-alt'></i>
+						</div>
+						<div class="menu-title">Carrer</div>
 					</a>
 				</li>
 
@@ -197,6 +185,7 @@
 						<div class="menu-title">Site Setting</div>
 					</a>
 				</li>
+				
 				<li>
 					<a href="{{route('backend.social_media')}}">
 						<div class="parent-icon"><i class='bx bx-share-alt'></i>
